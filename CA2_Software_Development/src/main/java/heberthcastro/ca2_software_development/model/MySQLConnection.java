@@ -119,4 +119,76 @@ public class MySQLConnection {
             return false;
         }
     }
+    
+    public boolean insertMember(Member member) {
+        try {
+            String sql = "Insert member (Name, Role, Email, Password) Values ("
+                    + "'" + member.getName() + "','" + member.getRole() + "','" + member.getEmail() + "','" + member.getPassword() + "')";
+            System.out.println(sql);
+            Statement s = this.conn.createStatement();
+            s.executeUpdate(sql);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return false;
+        }
+    }
+    
+    public ArrayList<Member> selectMember() {
+        ArrayList<Member> members = new ArrayList<Member>();
+        try {
+            String sql = "select * from member";
+            //System.out.println(sql);
+            Statement statement = conn.createStatement();
+            ResultSet result = statement.executeQuery(sql);
+            while (result.next()){
+                Member member = new Member();
+                member.setId(result.getInt("id"));
+                member.setName(result.getString("name"));
+                member.setRole(result.getString("role"));
+                member.setEmail(result.getString("email"));
+                member.setPassword(result.getString("password"));
+                members.add(member);
+            }
+            return members;
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return null;
+    }
+    
+    public Member selectMember(int id) {
+        Member member;
+        try {
+            String sql = "select * from member where id = " + id;
+            //System.out.println(sql);
+            Statement statement = conn.createStatement();
+            ResultSet result = statement.executeQuery(sql);
+            if (result.next()){
+                member = new Member();
+                member.setId(result.getInt("id"));
+                member.setName(result.getString("name"));
+                member.setRole(result.getString("role"));
+                member.setEmail(result.getString("email"));
+                member.setPassword(result.getString("password"));
+                return member;
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return null;
+    }
+    
+    public boolean deleteMember(int id) {
+        try {
+            String sql = "delete from member where id = " + id;
+            //System.out.println(sql);
+            Statement s = this.conn.createStatement();
+            s.executeUpdate(sql);
+            return true;
+        } catch (Exception e) {
+            //System.out.println(e.toString());
+            return false;
+        }
+    }
 }

@@ -60,7 +60,7 @@ public class Principal {
                 bookPanel(scanner, conn);
                 break;
             case "b":
-                
+                memberPanel(scanner, conn);
                 break;
             default:
                 System.out.println("Invalid choice, please try again.");
@@ -120,6 +120,66 @@ public class Principal {
             System.out.println("Book deleted!");
         } else {
             System.out.println("Book not deleted!");
+        }
+    }
+    
+    private static void memberPanel(Scanner scanner, MySQLConnection conn) {
+        System.out.println("\n\na: Insert Member");
+        System.out.print("b: Delete Member");
+        System.out.print("\nSelect an option: ");
+
+        String choice = scanner.next();
+        scanner.nextLine();  // Consume newline
+        switch (choice) {
+            case "a":
+                insertMember(scanner, conn);
+                break;
+            case "b":
+                deleteMember(scanner, conn);
+                break;
+            default:
+                System.out.println("Invalid choice, please try again.");
+        }
+    }
+    
+    private static void insertMember(Scanner scanner, MySQLConnection conn) {
+        Member member = new Member();
+        System.out.println("\n\na: Insert Name");
+        String name = scanner.next();
+        member.setName(name);
+        scanner.nextLine();  // Consume newline
+        System.out.println("\n\na: Insert role");
+        String role = scanner.next();
+        member.setRole(role);
+        scanner.nextLine();  // Consume newline
+        System.out.println("\n\na: Insert the Email");
+        String email = scanner.next();
+        member.setEmail(email);
+        scanner.nextLine();  // Consume newline
+        System.out.println("\n\na: Insert the Password");
+        String password = scanner.next();
+        member.setPassword(password);
+
+        conn.insertMember(member);
+    }
+    
+    private static void deleteMember(Scanner scanner, MySQLConnection conn) {
+        System.out.println("\n\nList of members:");
+        ArrayList<Member> members = conn.selectMember();
+        for (int i = 0; i < members.size(); i++) {
+            System.out.println(members.get(i).getId() + " - " + members.get(i).getName() + " - " + members.get(i).getRole() + " - " + members.get(i).getEmail());
+        }
+
+        System.out.println("\n\nselect id of the member: ");
+        int id = scanner.nextInt();
+        if (conn.selectMember(id) == null) {
+            System.out.println("Member not found!");
+            return;
+        } 
+        if (conn.deleteMember(id)) {
+            System.out.println("Member deleted!");
+        } else {
+            System.out.println("Member not deleted!");
         }
     }
 }
