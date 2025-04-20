@@ -191,4 +191,82 @@ public class MySQLConnection {
             return false;
         }
     }
+    
+    public boolean insertTransaction(Transaction transaction) {
+        try {
+            String sql = "Insert into transaction (BookId, UserId, IssueDate, ReturnDate, Status) Values ("
+                    + "'" + transaction.getBookId() + "','" + 
+                    transaction.getUserId() + "','" + 
+                    transaction.getIssueDate() + "','" + 
+                    transaction.getReturnDate() + "','" + 
+                    transaction.getStatus()+ ")";
+            System.out.println(sql);
+            Statement s = this.conn.createStatement();
+            s.executeUpdate(sql);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return false;
+        }
+    }
+
+    public ArrayList<Transaction> selectTransaction() {
+        ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+        try {
+            String sql = "select * from transaction";
+            //System.out.println(sql);
+            Statement statement = conn.createStatement();
+            ResultSet result = statement.executeQuery(sql);
+            while (result.next()){
+                Transaction transaction = new Transaction();
+                transaction.setTransactionId(result.getInt("transactionid"));
+                transaction.setBookId(result.getInt("bookId"));
+                transaction.setUserId(result.getInt("userId"));
+                transaction.setIssueDate(result.getDate("issueDate"));
+                transaction.setReturnDate(result.getDate("returnDate"));
+                transaction.setStatus(result.getString("status"));
+                transactions.add(transaction);
+            }
+            return transactions;
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return null;
+    }
+    
+    public Transaction selectTransaction(int id) {
+        Transaction transaction;
+        try {
+            String sql = "select * from transaction where id = " + id;
+            //System.out.println(sql);
+            Statement statement = conn.createStatement();
+            ResultSet result = statement.executeQuery(sql);
+            if (result.next()){
+                transaction = new Transaction();
+                transaction.setTransactionId(result.getInt("transactionid"));
+                transaction.setBookId(result.getInt("bookId"));
+                transaction.setUserId(result.getInt("userId"));
+                transaction.setIssueDate(result.getDate("issueDate"));
+                transaction.setReturnDate(result.getDate("returnDate"));
+                transaction.setStatus(result.getString("status"));
+                return transaction;
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return null;
+    }
+
+    public boolean deleteTransaction(int id) {
+        try {
+            String sql = "delete from transaction where id = " + id;
+            //System.out.println(sql);
+            Statement s = this.conn.createStatement();
+            s.executeUpdate(sql);
+            return true;
+        } catch (Exception e) {
+            //System.out.println(e.toString());
+            return false;
+        }
+    }
 }

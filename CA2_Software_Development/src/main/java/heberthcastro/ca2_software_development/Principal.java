@@ -62,6 +62,9 @@ public class Principal {
             case "b":
                 memberPanel(scanner, conn);
                 break;
+            case "c":
+                memberPanel(scanner, conn);
+                break;
             default:
                 System.out.println("Invalid choice, please try again.");
         }
