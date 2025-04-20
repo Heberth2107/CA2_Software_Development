@@ -10,6 +10,7 @@ import java.util.ArrayList;
 /**
  *
  * @author heber
+ * githublink https://github.com/Heberth2107/CA2_Software_Development
  */
 public class Principal {
 
@@ -33,10 +34,10 @@ public class Principal {
                     adminPanel(scanner, conn);
                     break;
                 case 2:
-                    //readAnimalDataFromFile();
+                    memberPanelPrincipal(scanner, conn);
                     break;
                 case 3:
-                    //findAnimalsByType(scanner);
+                    //notifications(scanner, conn);
                     break;
                 case -1:
                     System.out.println("Goodbye!");
@@ -62,9 +63,7 @@ public class Principal {
             case "b":
                 memberPanel(scanner, conn);
                 break;
-            case "c":
-                memberPanel(scanner, conn);
-                break;
+                
             default:
                 System.out.println("Invalid choice, please try again.");
         }
@@ -183,6 +182,29 @@ public class Principal {
             System.out.println("Member deleted!");
         } else {
             System.out.println("Member not deleted!");
+        }
+    }
+    
+    private static void memberPanelPrincipal(Scanner scanner, MySQLConnection conn) {
+        System.out.println("\n\na: Borrow Books");
+        System.out.println("b: Return Books");
+        System.out.print("c: View Issued Books ");
+        System.out.print("\nSelect an option: ");
+
+        String choice = scanner.next();
+        scanner.nextLine();  // Consume newline
+        switch (choice) {
+            case "a":
+                //borrowBooks (scanner, conn);
+                break;
+            case "b":
+                //returnBooks(scanner, conn);
+                break;
+            case "c":
+                //viewIssuedBooks(scanner, conn);
+                break;   
+            default:
+                System.out.println("Invalid choice, please try again.");
         }
     }
 }
